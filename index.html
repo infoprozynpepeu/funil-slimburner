@@ -44,7 +44,8 @@
 
             <p id="resultado"></p>
 
-            <button id="proseguirButton" onclick="prosseguir()" disabled>Prosseguir</button>
+            <!-- Botão "Prosseguir" inicialmente oculto -->
+            <button id="prosseguirButton" style="display: none;" onclick="prosseguir()">Prosseguir</button>
         </main>
 
         <footer>
@@ -79,9 +80,9 @@
             document.getElementById("resultado").innerHTML = "Você precisa de " + calorias.toFixed(2) + " calorias por dia.";
             localStorage.setItem("calorias", calorias);
 
-            // Habilita o botão de prosseguir após o cálculo
+            // Após o cálculo, o botão "Prosseguir" é exibido
             calculoFeito = true;
-            document.getElementById("proseguirButton").disabled = false;
+            document.getElementById("prosseguirButton").style.display = "block";
         }
 
         function prosseguir() {
