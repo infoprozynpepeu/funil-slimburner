@@ -4,38 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personalização da Dose - SlimBurner</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            background-color: #f4f4f4;
-        }
-        h2 {
-            color: #333;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="container">
-        <h2>Personalização da Dose do SlimBurner</h2>
-        <p id="dose"></p>
+        <header>
+            <h1>Personalização da Dose do SlimBurner</h1>
+        </header>
 
-        <button onclick="prosseguir()">Prosseguir para Dieta</button>
+        <main>
+            <p id="dose"></p>
+
+            <button onclick="prosseguir()">Prosseguir para Dieta</button>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 SlimBurner</p>
+        </footer>
     </div>
 
     <script>
         var calorias = localStorage.getItem("calorias");
-
         var dose;
+
         if (calorias < 2000) {
             dose = "Recomendamos tomar 1 xícara de SlimBurner por dia.";
         } else {
@@ -48,6 +39,5 @@
             window.location.href = "dieta.html";
         }
     </script>
-
 </body>
 </html>
