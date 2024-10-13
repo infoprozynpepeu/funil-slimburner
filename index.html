@@ -4,59 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Calorias - SlimBurner</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            background-color: #f4f4f4;
-        }
-        h2 {
-            color: #333;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="container">
-        <h2>Calculadora de Calorias</h2>
-        
-        <!-- Calculadora de Calorias -->
-        <label for="peso">Peso (kg):</label>
-        <input type="number" id="peso" required>
+        <header>
+            <h1>Calculadora de Calorias</h1>
+        </header>
 
-        <label for="altura">Altura (cm):</label>
-        <input type="number" id="altura" required>
+        <main>
+            <form id="calorieForm">
+                <label for="peso">Peso (kg):</label>
+                <input type="number" id="peso" placeholder="Digite seu peso" required>
 
-        <label for="idade">Idade:</label>
-        <input type="number" id="idade" required>
+                <label for="altura">Altura (cm):</label>
+                <input type="number" id="altura" placeholder="Digite sua altura" required>
 
-        <label for="sexo">Sexo:</label>
-        <select id="sexo">
-            <option value="masculino">Masculino</option>
-            <option value="feminino">Feminino</option>
-        </select>
+                <label for="idade">Idade:</label>
+                <input type="number" id="idade" placeholder="Digite sua idade" required>
 
-        <label for="atividade">Nível de Atividade Física:</label>
-        <select id="atividade">
-            <option value="1.2">Sedentário</option>
-            <option value="1.375">Levemente ativo</option>
-            <option value="1.55">Moderadamente ativo</option>
-            <option value="1.725">Muito ativo</option>
-        </select>
+                <label for="sexo">Sexo:</label>
+                <select id="sexo">
+                    <option value="masculino">Masculino</option>
+                    <option value="feminino">Feminino</option>
+                </select>
 
-        <button onclick="calcularCalorias()">Calcular</button>
+                <label for="atividade">Nível de Atividade Física:</label>
+                <select id="atividade">
+                    <option value="1.2">Sedentário</option>
+                    <option value="1.375">Levemente ativo</option>
+                    <option value="1.55">Moderadamente ativo</option>
+                    <option value="1.725">Muito ativo</option>
+                </select>
 
-        <p id="resultado"></p>
+                <button type="button" onclick="calcularCalorias()">Calcular</button>
+            </form>
 
-        <button onclick="prosseguir()">Prosseguir para Personalização</button>
+            <p id="resultado"></p>
+
+            <button onclick="prosseguir()">Prosseguir</button>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 SlimBurner</p>
+        </footer>
     </div>
 
     <script>
@@ -68,7 +59,6 @@
             var atividade = document.getElementById("atividade").value;
 
             var calorias = 0;
-
             if (sexo === "masculino") {
                 calorias = 66 + (13.7 * peso) + (5 * altura) - (6.8 * idade);
             } else {
@@ -78,13 +68,12 @@
             calorias *= atividade;
 
             document.getElementById("resultado").innerHTML = "Você precisa de " + calorias.toFixed(2) + " calorias por dia.";
-            localStorage.setItem("calorias", calorias); // Armazena o resultado no navegador
+            localStorage.setItem("calorias", calorias);
         }
 
         function prosseguir() {
             window.location.href = "personalizacao.html";
         }
     </script>
-
 </body>
 </html>
