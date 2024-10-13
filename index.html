@@ -23,6 +23,7 @@
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
+            position: relative;
         }
 
         header {
@@ -37,12 +38,48 @@
             margin: 20px 0;
         }
 
-        label, select, input {
+        label, input {
             display: block;
             margin-bottom: 15px;
             width: 100%;
             padding: 10px;
             font-size: 16px;
+        }
+
+        .checkmark {
+            color: green;
+            font-size: 18px;
+            display: none;
+            margin-left: 10px;
+        }
+
+        .avatars {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #EEEEEE;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid transparent;
+        }
+
+        .avatar img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .avatar.selected {
+            border: 4px solid #03A9F4;
+            transform: scale(1.1);
         }
 
         button {
@@ -54,7 +91,8 @@
             cursor: pointer;
             border-radius: 5px;
             width: 100%;
-            margin-top: 15px; /* Adiciona espaçamento entre botões e texto */
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
@@ -69,45 +107,66 @@
         }
 
         #resultado {
-            margin-top: 20px; /* Espaçamento entre o cálculo e o botão "Calcular" */
+            margin-top: 20px;
             font-size: 18px;
             font-weight: bold;
             color: #03A9F4;
         }
 
-        /* Botão "Prosseguir" oculto inicialmente */
         #prosseguirButton {
-            margin-top: 20px; /* Espaçamento adequado antes de "Prosseguir" */
+            margin-top: 20px;
             display: none;
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background-color: #03A9F4;
+            width: 33%; /* Passo 1 de 3 */
+        }
+
+        #voltarButton {
+            margin-top: 20px;
+            background-color: #888;
+            color: white;
+            font-size: 16px;
+            padding: 8px 15px;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="progress-bar"></div> <!-- Barra de progresso -->
         <header>
             <h1>Calculadora de Calorias</h1>
         </header>
 
         <main>
             <form id="calorieForm">
-                <label for="peso">Peso (kg):</label>
-                <input type="number" id="peso" placeholder="Digite seu peso" required>
+                <label for="peso">Peso (kg): <span id="checkPeso" class="checkmark">✔</span></label>
+                <input type="number" id="peso" placeholder="Digite seu peso" required oninput="salvarDados()">
 
-                <label for="altura">Altura (cm):</label>
-                <input type="number" id="altura" placeholder="Digite sua altura" required>
+                <label for="altura">Altura (cm): <span id="checkAltura" class="checkmark">✔</span></label>
+                <input type="number" id="altura" placeholder="Digite sua altura" required oninput="salvarDados()">
 
-                <label for="idade">Idade:</label>
-                <input type="number" id="idade" placeholder="Digite sua idade" required>
+                <label for="idade">Idade: <span id="checkIdade" class="checkmark">✔</span></label>
+                <input type="number" id="idade" placeholder="Digite sua idade" required oninput="salvarDados()">
 
-                <label for="sexo">Sexo:</label>
-                <select id="sexo">
-                    <option value="">Selecione</option>
-                    <option value="masculino">Masculino</option>
-                    <option value="feminino">Feminino</option>
-                </select>
-
+                <div class="avatars">
+                    <!-- Avatares customizados -->
+                    <div class="avatar" id="avatarHomem" onclick="selecionarAvatar('masculino')">
+                        <img src="https://via.placeholder.com/100?text=Homem" alt="Avatar Homem">
+                    </div>
+                    <div class="avatar" id="avatarMulher" onclick="selecionarAvatar('feminino')">
+                        <img src="https://via.placeholder.com/100?text=Mulher" alt="Avatar Mulher">
+                    </div>
+                </div>
+                <input type="hidden" id="sexo">
+                
                 <label for="atividade">Nível de Atividade Física:</label>
-                <select id="atividade">
+                <select id="atividade" onchange="salvarDados()">
                     <option value="">Selecione</option>
                     <option value="1.2">Sedentário</option>
                     <option value="1.375">Levemente ativo</option>
@@ -120,8 +179,8 @@
 
             <p id="resultado"></p>
 
-            <!-- Botão "Prosseguir" inicialmente oculto -->
             <button id="prosseguirButton" onclick="prosseguir()">Prosseguir</button>
+            <button id="voltarButton" onclick="voltar()">Voltar</button>
         </main>
 
         <footer>
@@ -130,7 +189,37 @@
     </div>
 
     <script>
+        let sexoSelecionado = null;
         let calculoFeito = false;
+
+        function selecionarAvatar(sexo) {
+            sexoSelecionado = sexo;
+            document.getElementById("sexo").value = sexo;
+            document.getElementById("avatarHomem").classList.remove("selected");
+            document.getElementById("avatarMulher").classList.remove("selected");
+
+            if (sexo === "masculino") {
+                document.getElementById("avatarHomem").classList.add("selected");
+            } else {
+                document.getElementById("avatarMulher").classList.add("selected");
+            }
+        }
+
+        function salvarDados() {
+            let peso = document.getElementById("peso").value;
+            let altura = document.getElementById("altura").value;
+            let idade = document.getElementById("idade").value;
+            let atividade = document.getElementById("atividade").value;
+
+            if (peso) document.getElementById("checkPeso").style.display = 'inline';
+            if (altura) document.getElementById("checkAltura").style.display = 'inline';
+            if (idade) document.getElementById("checkIdade").style.display = 'inline';
+
+            localStorage.setItem('peso', peso);
+            localStorage.setItem('altura', altura);
+            localStorage.setItem('idade', idade);
+            localStorage.setItem('atividade', atividade);
+        }
 
         function calcularCalorias() {
             var peso = document.getElementById("peso").value;
@@ -140,7 +229,7 @@
             var atividade = document.getElementById("atividade").value;
 
             if (!peso || !altura || !idade || !sexo || !atividade) {
-                alert("Por favor, preencha todos os campos.");
+                alert("Por favor, preencha todos os campos e selecione seu avatar.");
                 return;
             }
 
@@ -156,7 +245,6 @@
             document.getElementById("resultado").innerHTML = "Você precisa de " + calorias.toFixed(2) + " calorias por dia.";
             localStorage.setItem("calorias", calorias);
 
-            // Após o cálculo, o botão "Prosseguir" é exibido
             calculoFeito = true;
             document.getElementById("prosseguirButton").style.display = "block";
         }
@@ -168,8 +256,11 @@
                 alert("Por favor, complete o cálculo antes de prosseguir.");
             }
         }
+
+        function voltar() {
+            // Função para voltar à página anterior
+            window.history.back();
+        }
     </script>
 </body>
 </html>
-
-
