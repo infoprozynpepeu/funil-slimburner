@@ -5,6 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dieta Personalizada - SlimBurner</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        header {
+            text-align: center;
+            background-color: #03A9F4;
+            padding: 20px;
+            border-radius: 10px 10px 0 0;
+            color: white;
+        }
+
+        main {
+            margin: 20px 0;
+        }
+
+        p {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: 20px;
+        }
+
+        ul li {
+            background-color: #eeeeee;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -13,6 +70,9 @@
         </header>
 
         <main>
+            <p id="caloriasTotal"></p>
+            <p id="doseRecomendada"></p>
+
             <p>Aqui está o seu plano alimentar para emagrecimento com o SlimBurner:</p>
 
             <ul>
@@ -27,5 +87,29 @@
             <p>&copy; 2024 SlimBurner</p>
         </footer>
     </div>
+
+    <script>
+        // Recupera o valor das calorias do localStorage
+        var calorias = localStorage.getItem("calorias");
+        var dose;
+
+        if (!calorias) {
+            alert("Você precisa completar a etapa anterior.");
+            window.location.href = "index.html"; // Redireciona para a primeira página se calorias não existirem
+        }
+
+        // Exibe o total de calorias necessárias
+        var caloriasMensagem = "Você precisa de " + calorias + " calorias por dia para atingir seus objetivos.";
+        document.getElementById("caloriasTotal").innerText = caloriasMensagem;
+
+        // Exibe a dose recomendada de SlimBurner
+        if (calorias < 2000) {
+            dose = "A dose recomendada é 1 xícara de SlimBurner por dia.";
+        } else {
+            dose = "A dose recomendada é 2 xícaras de SlimBurner por dia.";
+        }
+
+        document.getElementById("doseRecomendada").innerText = dose;
+    </script>
 </body>
 </html>
