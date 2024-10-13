@@ -25,12 +25,14 @@
 
                 <label for="sexo">Sexo:</label>
                 <select id="sexo">
+                    <option value="">Selecione</option>
                     <option value="masculino">Masculino</option>
                     <option value="feminino">Feminino</option>
                 </select>
 
                 <label for="atividade">Nível de Atividade Física:</label>
                 <select id="atividade">
+                    <option value="">Selecione</option>
                     <option value="1.2">Sedentário</option>
                     <option value="1.375">Levemente ativo</option>
                     <option value="1.55">Moderadamente ativo</option>
@@ -42,7 +44,7 @@
 
             <p id="resultado"></p>
 
-            <button onclick="prosseguir()">Prosseguir</button>
+            <button id="proseguirButton" onclick="prosseguir()" disabled>Prosseguir</button>
         </main>
 
         <footer>
@@ -51,12 +53,19 @@
     </div>
 
     <script>
+        let calculoFeito = false;
+
         function calcularCalorias() {
             var peso = document.getElementById("peso").value;
             var altura = document.getElementById("altura").value;
             var idade = document.getElementById("idade").value;
             var sexo = document.getElementById("sexo").value;
             var atividade = document.getElementById("atividade").value;
+
+            if (!peso || !altura || !idade || !sexo || !atividade) {
+                alert("Por favor, preencha todos os campos.");
+                return;
+            }
 
             var calorias = 0;
             if (sexo === "masculino") {
@@ -69,10 +78,18 @@
 
             document.getElementById("resultado").innerHTML = "Você precisa de " + calorias.toFixed(2) + " calorias por dia.";
             localStorage.setItem("calorias", calorias);
+
+            // Habilita o botão de prosseguir após o cálculo
+            calculoFeito = true;
+            document.getElementById("proseguirButton").disabled = false;
         }
 
         function prosseguir() {
-            window.location.href = "personalizacao.html";
+            if (calculoFeito) {
+                window.location.href = "personalizacao.html";
+            } else {
+                alert("Por favor, complete o cálculo antes de prosseguir.");
+            }
         }
     </script>
 </body>
